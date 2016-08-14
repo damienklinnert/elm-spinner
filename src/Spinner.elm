@@ -1,6 +1,6 @@
 module Spinner exposing (Direction(..), Config, defaultConfig, view, Model, Msg, update, subscriptions, init)
 
-{-| A highly configurable, efficiently rendered spinner component.
+{-| git remote add origin git@github.com:damienklinnert/elm-spinner.git.
 
 Check the [README for a general introduction into this module](http://package.elm-lang.org/packages/damienklinnert/elm-spinner/latest/).
 
