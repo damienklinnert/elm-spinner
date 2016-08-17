@@ -11,7 +11,7 @@ to with the Elm Architecture in your application.
 **Features**:
 
 - No images, no external CSS
-- Highly configurable ([try the interactive spinner editor](https://github.com/damienklinnert/elm-spinner/tree/master/example/editor))
+- Highly configurable ([try the interactive spinner editor](https://damienklinnert.github.io/elm-spinner/))
 - Resolution independent (looks great on Retina!!)
 - Efficient animations thanks to `window.requestAnimationFrame`
 - Works in Chrome, Safari, Firefox from IE >= 10
@@ -34,7 +34,7 @@ You can find two complete examples in the `example/` folder:
 
 - A [simple, bare bones integration](https://github.com/damienklinnert/elm-spinner/tree/master/example/simple)
   of a spinner in `example/simple/`
-- A [visual spinner editor](https://github.com/damienklinnert/elm-spinner/tree/master/example/editor),
+- A [visual spinner editor](https://damienklinnert.github.io/elm-spinner/),
   allowing you to make your own spinner in  `example/editor/`
 
 If you're not yet familiar with [The Elm Architecture](http://guide.elm-lang.org/architecture/), give it a quick read.
@@ -138,7 +138,7 @@ Et Voilà, you should now have an animated spinner in your application.
 ### What's next?
 
 - Check the [bare bones integration](https://github.com/damienklinnert/elm-spinner/tree/master/example/simple)
-- [Make your own spinner](https://github.com/damienklinnert/elm-spinner/tree/master/example/editor)
+- [Make your own spinner](https://damienklinnert.github.io/elm-spinner/)
 - Check out the full documentation for the [Spin module](http://package.elm-lang.org/packages/damienklinnert/elm-spinner/latest/)
 
 
