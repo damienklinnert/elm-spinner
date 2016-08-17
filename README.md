@@ -2,7 +2,7 @@
 
 A highly configurable, efficiently rendered spinner component.
 
-![Example](https://raw.githubusercontent.com/damienklinnert/elm-spinner/master/example/spinner.png)
+![Example](https://raw.githubusercontent.com/damienklinnert/elm-spinner/master/example/elm-spinner.gif)
 
 The `Spinner` module exposes the `Model` and `Msg` type as well as an `update` and `view` function, all ready
 to with the Elm Architecture in your application.
