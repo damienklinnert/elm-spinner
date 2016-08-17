@@ -19,9 +19,8 @@ import AnimationFrame exposing (times)
 
 {-| Contains the current state for the spinner.
 -}
-type alias Model =
-    { time : Time
-    }
+type Model
+    = Model Time
 
 
 {-| `Msg` messages need to be passed through your application.
@@ -42,27 +41,27 @@ subscriptions _ =
 -}
 init : Model
 init =
-    { time = 0 }
+    Model 0
 
 
 {-| Accepts `Msg` and `Model` and computes a new `Model`.
 -}
 update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
+update msg (Model time) =
     case msg of
         Noop ->
-            model ! []
+            (Model time) ! []
 
         AnimationFrame newTime ->
-            { model | time = newTime } ! []
+            (Model newTime) ! []
 
 
 {-| The actual spinner component.
 -}
 view : Config -> Model -> Html Msg
-view cfg model =
+view cfg (Model time) =
     div []
-        (List.map (\i -> div [ outerStyle cfg ] [ div [ barStyles cfg model.time i ] [] ]) [0..cfg.lines - 1])
+        (List.map (\i -> div [ outerStyle cfg ] [ div [ barStyles cfg time i ] [] ]) [0..cfg.lines - 1])
 
 
 {-| A spinner can spin `Clockwise` or `Counterclockwise`.
