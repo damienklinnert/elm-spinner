@@ -58,7 +58,7 @@ update msg (Model time) =
 
 {-| The actual spinner component.
 -}
-view : Config -> Model -> Html Msg
+view : Config -> Model -> Html msg
 view cfg (Model time) =
     div []
         (List.map (\i -> div [ outerStyle cfg ] [ div [ barStyles cfg time i ] [] ]) [0..cfg.lines - 1])
@@ -135,7 +135,7 @@ defaultConfig =
 -- Helpers, those make our spinner look like one
 
 
-outerStyle : Config -> Html.Attribute Msg
+outerStyle : Config -> Html.Attribute msg
 outerStyle cfg =
     style
         ([ ( "position", "absolute" )

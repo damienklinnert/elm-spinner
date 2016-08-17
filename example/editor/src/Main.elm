@@ -180,7 +180,7 @@ view model =
             , Html.div []
                 [ Html.h2 [] [ Html.text "Example" ]
                 , Html.div [ containerStyles ]
-                    [ Html.App.map SpinnerMsg <| Spinner.view model.spinnerConfig model.spinner
+                    [ Spinner.view model.spinnerConfig model.spinner
                     ]
                 ]
             , Html.div []
