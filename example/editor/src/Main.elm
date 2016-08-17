@@ -175,7 +175,7 @@ view model =
                 , ( "border-radius", "10px" )
                 ]
     in
-        div []
+        div [ HA.style [ ( "margin", "20px" ) ] ]
             [ Html.h1 [] [ Html.text "elm-spinner" ]
             , Html.p []
                 [ Html.text "Check out "
