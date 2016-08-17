@@ -182,6 +182,7 @@ view model =
                 , Html.div [ containerStyles ]
                     [ Spinner.view model.spinnerConfig model.spinner
                     ]
+                , Html.code [] [Html.text <| toString model.spinnerConfig]
                 ]
             , Html.div []
                 [ lineSlider model.spinnerConfig
