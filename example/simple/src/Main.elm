@@ -39,10 +39,10 @@ update msg model =
 
         SpinnerMsg msg ->
             let
-                ( spinnerModel, spinnerCmd ) =
+                spinnerModel =
                     Spinner.update msg model.spinner
             in
-                { model | spinner = spinnerModel } ! [ Cmd.map SpinnerMsg spinnerCmd ]
+                { model | spinner = spinnerModel } ! []
 
 
 view : Model -> Html.Html Msg

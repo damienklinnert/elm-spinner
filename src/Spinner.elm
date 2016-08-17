@@ -46,14 +46,14 @@ init =
 
 {-| Accepts `Msg` and `Model` and computes a new `Model`.
 -}
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> Model
 update msg (Model time) =
     case msg of
         Noop ->
-            (Model time) ! []
+            (Model time)
 
         AnimationFrame newTime ->
-            (Model newTime) ! []
+            (Model newTime)
 
 
 {-| The actual spinner component.
