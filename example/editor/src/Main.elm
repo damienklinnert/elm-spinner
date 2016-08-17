@@ -175,15 +175,27 @@ view model =
                 , ( "border-radius", "10px" )
                 ]
     in
-        div []
+        div [ HA.style [ ( "margin", "20px" ) ] ]
             [ Html.h1 [] [ Html.text "elm-spinner" ]
-            , Html.div []
-                [ Html.h2 [] [ Html.text "Example" ]
-                , Html.div [ containerStyles ]
+            , Html.p []
+                [ Html.text "Check out "
+                , Html.a [ HA.href "http://package.elm-lang.org/packages/damienklinnert/elm-spinner/latest/" ] [ Html.text "the elm package" ]
+                , Html.text " and the "
+                , Html.a [ HA.href "https://github.com/damienklinnert/elm-spinner/tree/master" ] [ Html.text "the source code" ]
+                , Html.text "."
+                ]
+            , Html.h2 [] [ Html.text "Build your own spinner" ]
+            , Html.div [ HA.style [ ( "float", "left" ), ( "width", "375px" ) ] ]
+                [ Html.div [ containerStyles ]
                     [ Spinner.view model.spinnerConfig model.spinner
                     ]
+                , Html.p [] [ Html.text "Copy and paste this configuration to use this style in your own application:" ]
+                , Html.code
+                    [ HA.style [ ( "float", "left" ), ( "padding", "10px" ), ( "background", "#eee" ), ( "border-radius", "10px" ) ]
+                    ]
+                    [ Html.text <| toString model.spinnerConfig ]
                 ]
-            , Html.div []
+            , Html.div [ HA.style [ ( "float", "left" ), ( "width", "300px" ), ( "margin-left", "30px" ) ] ]
                 [ lineSlider model.spinnerConfig
                 , lengthSlider model.spinnerConfig
                 , widthSlider model.spinnerConfig
