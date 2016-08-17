@@ -1,11 +1,11 @@
-module Spinner exposing (Direction(..), Config, defaultConfig, view, Model, Msg, update, subscriptions, init)
+module Spinner exposing (Direction(..), Config, defaultConfig, view, Model, Msg, update, subscription, init)
 
 {-| A highly configurable, efficiently rendered spinner component.
 
 Check the [README for a general introduction into this module](http://package.elm-lang.org/packages/damienklinnert/elm-spinner/latest/).
 
 # The Elm Architecture
-@docs Model, Msg, subscriptions, init, update, view
+@docs Model, Msg, subscription, init, update, view
 
 # Custom Spinners
 @docs Direction, Config, defaultConfig
@@ -32,8 +32,8 @@ type Msg
 
 {-| Add this to your `program`s subscriptions to animate the spinner.
 -}
-subscriptions : Model -> Sub Msg
-subscriptions _ =
+subscription : Sub Msg
+subscription =
     times AnimationFrame
 
 

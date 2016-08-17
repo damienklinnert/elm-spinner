@@ -157,7 +157,7 @@ main : Program Never
 main =
     program
         { init = init
-        , subscriptions = (\x -> Sub.map SpinnerMsg <| Spinner.subscriptions x.spinner)
+        , subscriptions = (\x -> Sub.map SpinnerMsg Spinner.subscription)
         , update = update
         , view = view
         }

@@ -70,7 +70,7 @@ main =
         { init = init
         , update = update
         , view = view
-        , subscriptions = (\model -> Sub.map SpinnerMsg (Spinner.subscriptions model.spinner))
+        , subscriptions = (\model -> Sub.map SpinnerMsg Spinner.subscription)
         }
 ```
 
