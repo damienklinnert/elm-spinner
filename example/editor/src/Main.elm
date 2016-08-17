@@ -7,7 +7,6 @@ import Html.Events as HE
 import Html.App exposing (program)
 import Debug exposing (log)
 import String
-import Focus as F exposing ((=>))
 import Spinner exposing (Direction(..), Config)
 
 
@@ -33,35 +32,22 @@ type Msg
 
 type alias Model =
     { spinner : Spinner.Model
+    , spinnerConfig : Spinner.Config
     }
 
 
 init : ( Model, Cmd Msg )
 init =
     ( { spinner = Spinner.init
+      , spinnerConfig = Spinner.defaultConfig
       }
     , Cmd.none
     )
 
 
-spinner' : F.Focus Model Spinner.Model
-spinner' =
-    F.create .spinner (\upd r -> { r | spinner = upd r.spinner })
-
-
-cfg' : F.Focus Spinner.Model Spinner.Config
-cfg' =
-    F.create .cfg (\upd r -> { r | cfg = upd r.cfg })
-
-
-spinnerCfg' : F.Focus Model Spinner.Config
-spinnerCfg' =
-    spinner' => cfg'
-
-
 updateSpinner : Model -> (x -> Spinner.Config -> Spinner.Config) -> (x -> Model)
 updateSpinner model fn =
-    \val -> F.update spinnerCfg' (fn val) model
+    \val -> { model | spinnerConfig = fn val model.spinnerConfig }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -194,34 +180,34 @@ view model =
             , Html.div []
                 [ Html.h2 [] [ Html.text "Example" ]
                 , Html.div [ containerStyles ]
-                    [ Html.App.map SpinnerMsg <| Spinner.view model.spinner
+                    [ Html.App.map SpinnerMsg <| Spinner.view model.spinnerConfig model.spinner
                     ]
                 ]
             , Html.div []
-                [ lineSlider model
-                , lengthSlider model
-                , widthSlider model
-                , radiusSlider model
-                , scaleSlider model
-                , cornersSlider model
-                , opacitySlider model
-                , rotateSlider model
-                , directionSelect model
-                , speedSlider model
-                , trailSlider model
-                , translateXSlider model
-                , translateYSlider model
-                , shadowCheckbox model
-                , hwaccelCheckbox model
+                [ lineSlider model.spinnerConfig
+                , lengthSlider model.spinnerConfig
+                , widthSlider model.spinnerConfig
+                , radiusSlider model.spinnerConfig
+                , scaleSlider model.spinnerConfig
+                , cornersSlider model.spinnerConfig
+                , opacitySlider model.spinnerConfig
+                , rotateSlider model.spinnerConfig
+                , directionSelect model.spinnerConfig
+                , speedSlider model.spinnerConfig
+                , trailSlider model.spinnerConfig
+                , translateXSlider model.spinnerConfig
+                , translateYSlider model.spinnerConfig
+                , shadowCheckbox model.spinnerConfig
+                , hwaccelCheckbox model.spinnerConfig
                 ]
             ]
 
 
-lineSlider : Model -> Html Msg
-lineSlider model =
+lineSlider : Spinner.Config -> Html Msg
+lineSlider config =
     let
         lines =
-            toString model.spinner.cfg.lines
+            toString config.lines
     in
         Html.p []
             [ Html.text "Lines"
@@ -231,11 +217,11 @@ lineSlider model =
             ]
 
 
-lengthSlider : Model -> Html Msg
-lengthSlider model =
+lengthSlider : Spinner.Config -> Html Msg
+lengthSlider config =
     let
         length =
-            toString model.spinner.cfg.length
+            toString config.length
     in
         Html.p []
             [ Html.text "Length"
@@ -245,11 +231,11 @@ lengthSlider model =
             ]
 
 
-widthSlider : Model -> Html Msg
-widthSlider model =
+widthSlider : Spinner.Config -> Html Msg
+widthSlider config =
     let
         width =
-            toString model.spinner.cfg.width
+            toString config.width
     in
         Html.p []
             [ Html.text "Width"
@@ -259,11 +245,11 @@ widthSlider model =
             ]
 
 
-radiusSlider : Model -> Html Msg
-radiusSlider model =
+radiusSlider : Spinner.Config -> Html Msg
+radiusSlider config =
     let
         radius =
-            toString model.spinner.cfg.radius
+            toString config.radius
     in
         Html.p []
             [ Html.text "Radius"
@@ -273,11 +259,11 @@ radiusSlider model =
             ]
 
 
-scaleSlider : Model -> Html Msg
-scaleSlider model =
+scaleSlider : Spinner.Config -> Html Msg
+scaleSlider config =
     let
         scale =
-            toString model.spinner.cfg.scale
+            toString config.scale
     in
         Html.p []
             [ Html.text "Scale"
@@ -287,11 +273,11 @@ scaleSlider model =
             ]
 
 
-cornersSlider : Model -> Html Msg
-cornersSlider model =
+cornersSlider : Spinner.Config -> Html Msg
+cornersSlider config =
     let
         corners =
-            toString model.spinner.cfg.corners
+            toString config.corners
     in
         Html.p []
             [ Html.text "Corners"
@@ -301,11 +287,11 @@ cornersSlider model =
             ]
 
 
-opacitySlider : Model -> Html Msg
-opacitySlider model =
+opacitySlider : Spinner.Config -> Html Msg
+opacitySlider config =
     let
         opacity =
-            toString model.spinner.cfg.opacity
+            toString config.opacity
     in
         Html.p []
             [ Html.text "Opacity"
@@ -315,11 +301,11 @@ opacitySlider model =
             ]
 
 
-rotateSlider : Model -> Html Msg
-rotateSlider model =
+rotateSlider : Spinner.Config -> Html Msg
+rotateSlider config =
     let
         rotate =
-            toString model.spinner.cfg.rotate
+            toString config.rotate
     in
         Html.p []
             [ Html.text "Rotate"
@@ -329,11 +315,11 @@ rotateSlider model =
             ]
 
 
-directionSelect : Model -> Html Msg
-directionSelect model =
+directionSelect : Spinner.Config -> Html Msg
+directionSelect config =
     let
         direction =
-            toString model.spinner.cfg.direction
+            toString config.direction
     in
         Html.p []
             [ Html.text "Direction"
@@ -344,11 +330,11 @@ directionSelect model =
             ]
 
 
-speedSlider : Model -> Html Msg
-speedSlider model =
+speedSlider : Spinner.Config -> Html Msg
+speedSlider config =
     let
         speed =
-            toString model.spinner.cfg.speed
+            toString config.speed
     in
         Html.p []
             [ Html.text "Speed"
@@ -358,11 +344,11 @@ speedSlider model =
             ]
 
 
-trailSlider : Model -> Html Msg
-trailSlider model =
+trailSlider : Spinner.Config -> Html Msg
+trailSlider config =
     let
         trail =
-            toString model.spinner.cfg.trail
+            toString config.trail
     in
         Html.p []
             [ Html.text "Trail"
@@ -372,11 +358,11 @@ trailSlider model =
             ]
 
 
-translateXSlider : Model -> Html Msg
-translateXSlider model =
+translateXSlider : Spinner.Config -> Html Msg
+translateXSlider config =
     let
         translateX =
-            toString model.spinner.cfg.translateX
+            toString config.translateX
     in
         Html.p []
             [ Html.text "Translate X"
@@ -386,11 +372,11 @@ translateXSlider model =
             ]
 
 
-translateYSlider : Model -> Html Msg
-translateYSlider model =
+translateYSlider : Spinner.Config -> Html Msg
+translateYSlider config =
     let
         translateY =
-            toString model.spinner.cfg.translateY
+            toString config.translateY
     in
         Html.p []
             [ Html.text "Translate Y"
@@ -400,11 +386,11 @@ translateYSlider model =
             ]
 
 
-shadowCheckbox : Model -> Html Msg
-shadowCheckbox model =
+shadowCheckbox : Spinner.Config -> Html Msg
+shadowCheckbox config =
     let
         shadow =
-            model.spinner.cfg.shadow
+            config.shadow
     in
         Html.p []
             [ Html.text "Shadow"
@@ -413,11 +399,11 @@ shadowCheckbox model =
             ]
 
 
-hwaccelCheckbox : Model -> Html Msg
-hwaccelCheckbox model =
+hwaccelCheckbox : Spinner.Config -> Html Msg
+hwaccelCheckbox config =
     let
         hwaccel =
-            model.spinner.cfg.hwaccel
+            config.hwaccel
     in
         Html.p []
             [ Html.text "Hwaccel"

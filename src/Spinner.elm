@@ -17,11 +17,10 @@ import Time exposing (Time)
 import AnimationFrame exposing (times)
 
 
-{-| Contains the current state and the configuration for the spinner.
+{-| Contains the current state for the spinner.
 -}
 type alias Model =
     { time : Time
-    , cfg : Config
     }
 
 
@@ -39,11 +38,11 @@ subscriptions _ =
     times AnimationFrame
 
 
-{-| Defines an initial value for the `Model` type using the `defaultConfiguration`.
+{-| Defines an initial value for the `Model` type.
 -}
 init : Model
 init =
-    { time = 0, cfg = defaultConfig }
+    { time = 0 }
 
 
 {-| Accepts `Msg` and `Model` and computes a new `Model`.
@@ -60,10 +59,10 @@ update msg model =
 
 {-| The actual spinner component.
 -}
-view : Model -> Html Msg
-view model =
+view : Config -> Model -> Html Msg
+view cfg model =
     div []
-        (List.map (\i -> div [ outerStyle model ] [ div [ barStyles model i ] [] ]) [0..model.cfg.lines - 1])
+        (List.map (\i -> div [ outerStyle cfg ] [ div [ barStyles cfg model.time i ] [] ]) [0..cfg.lines - 1])
 
 
 {-| A spinner can spin `Clockwise` or `Counterclockwise`.
@@ -137,14 +136,14 @@ defaultConfig =
 -- Helpers, those make our spinner look like one
 
 
-outerStyle : Model -> Html.Attribute Msg
-outerStyle model =
+outerStyle : Config -> Html.Attribute Msg
+outerStyle cfg =
     style
         ([ ( "position", "absolute" )
-         , ( "top", "calc(" ++ (toString model.cfg.translateY) ++ "%)" )
-         , ( "left", (toString model.cfg.translateX) ++ "%" )
+         , ( "top", "calc(" ++ (toString cfg.translateY) ++ "%)" )
+         , ( "left", (toString cfg.translateX) ++ "%" )
          ]
-            ++ (if model.cfg.hwaccel then
+            ++ (if cfg.hwaccel then
                     [ ( "transform", "translate3d(0px, 0px, 0px)" ) ]
                 else
                     []
@@ -152,50 +151,50 @@ outerStyle model =
         )
 
 
-barStyles : Model -> Float -> Html.Attribute a
-barStyles model n =
+barStyles : Config -> Float -> Float -> Html.Attribute a
+barStyles cfg time n =
     let
         directionBasedDeg =
-            if model.cfg.direction == Clockwise then
-                (model.cfg.lines - n)
+            if cfg.direction == Clockwise then
+                (cfg.lines - n)
             else
                 n
 
         deg =
-            360 / model.cfg.lines * directionBasedDeg + model.cfg.rotate |> toString
+            360 / cfg.lines * directionBasedDeg + cfg.rotate |> toString
 
         fullBlinkTime =
-            1000 / model.cfg.speed
+            1000 / cfg.speed
 
         scaledTrail =
-            ceiling (model.cfg.lines * model.cfg.trail / 100) |> toFloat
+            ceiling (cfg.lines * cfg.trail / 100) |> toFloat
 
         movePerLight =
-            (n / model.cfg.lines) * fullBlinkTime |> truncate
+            (n / cfg.lines) * fullBlinkTime |> truncate
 
         lineOpacity =
-            (toFloat (1000 - (((truncate model.time) + movePerLight) % (truncate fullBlinkTime)))) / 1000
+            (toFloat (1000 - (((truncate time) + movePerLight) % (truncate fullBlinkTime)))) / 1000
 
         trailedOpacity =
-            (max 0 ((model.cfg.lines * lineOpacity) - (model.cfg.lines - scaledTrail))) / scaledTrail
+            (max 0 ((cfg.lines * lineOpacity) - (cfg.lines - scaledTrail))) / scaledTrail
 
         borderRadius =
-            model.cfg.corners * model.cfg.width
+            cfg.corners * cfg.width
 
         baseLinedOpacity =
-            max model.cfg.opacity trailedOpacity |> toString
+            max cfg.opacity trailedOpacity |> toString
     in
         style
             [ ( "background", "#fff" )
-            , ( "height", (toString (model.cfg.width * model.cfg.scale)) ++ "px" )
-            , ( "width", "" ++ (toString (model.cfg.length * model.cfg.scale + model.cfg.width)) ++ "px" )
+            , ( "height", (toString (cfg.width * cfg.scale)) ++ "px" )
+            , ( "width", "" ++ (toString (cfg.length * cfg.scale + cfg.width)) ++ "px" )
             , ( "position", "absolute" )
             , ( "transform-origin", "left" )
-            , ( "transform", "rotate(" ++ deg ++ "deg) translate(" ++ (toString (model.cfg.radius * model.cfg.scale)) ++ "px, 0px)" )
-            , ( "border-radius", (toString (borderRadius * model.cfg.scale)) ++ "px" )
+            , ( "transform", "rotate(" ++ deg ++ "deg) translate(" ++ (toString (cfg.radius * cfg.scale)) ++ "px, 0px)" )
+            , ( "border-radius", (toString (borderRadius * cfg.scale)) ++ "px" )
             , ( "opacity", baseLinedOpacity )
             , ( "box-shadow"
-              , (if model.cfg.shadow then
+              , (if cfg.shadow then
                     "0 0 4px #000"
                  else
                     "none"
@@ -203,7 +202,7 @@ barStyles model n =
               )
               -- TODO add browser prefixes!
             , ( "-webkit-box-shadow"
-              , (if model.cfg.shadow then
+              , (if cfg.shadow then
                     "0 0 4px #000"
                  else
                     "none"

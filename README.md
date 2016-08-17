@@ -117,8 +117,6 @@ init =
     { spinner = Spinner.init } ! []
 ```
 
-**Note**: If you dislike the default spinner stype, you can make your own. Check the [spin module docs](http://package.elm-lang.org/packages/damienklinnert/elm-spinner/latest/) for more info.
-
 
 ### View
 
@@ -127,11 +125,14 @@ Now, last but not least, you can add the spinner to your application's view like
 ```elm
 view : Model -> Html.Html Msg
 view model =
-    Html.div [] [ Html.App.map SpinnerMsg (Spinner.view model.spinner) ]
+    Html.div [] [ Html.App.map SpinnerMsg (Spinner.view Spinner.defaultConfig model.spinner) ]
+
 
 ```
 
 Et Voilà, you should now have an animated spinner in your application.
+
+**Note**: If you dislike the default spinner stype, you can make your own. Check the [spin module docs](http://package.elm-lang.org/packages/damienklinnert/elm-spinner/latest/) for more info.
 
 
 ### What's next?

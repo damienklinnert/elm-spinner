@@ -47,4 +47,4 @@ update msg model =
 
 view : Model -> Html.Html Msg
 view model =
-    Html.div [] [ Html.App.map SpinnerMsg (Spinner.view model.spinner) ]
+    Html.div [] [ Html.App.map SpinnerMsg (Spinner.view Spinner.defaultConfig model.spinner) ]
