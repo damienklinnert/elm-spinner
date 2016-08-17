@@ -22,7 +22,7 @@ main =
         { init = init
         , update = update
         , view = view
-        , subscriptions = (\model -> Sub.map SpinnerMsg (Spinner.subscriptions model.spinner))
+        , subscriptions = (\model -> Sub.map SpinnerMsg Spinner.subscription)
         }
 
 
@@ -39,12 +39,12 @@ update msg model =
 
         SpinnerMsg msg ->
             let
-                ( spinnerModel, spinnerCmd ) =
+                spinnerModel =
                     Spinner.update msg model.spinner
             in
-                { model | spinner = spinnerModel } ! [ Cmd.map SpinnerMsg spinnerCmd ]
+                { model | spinner = spinnerModel } ! []
 
 
 view : Model -> Html.Html Msg
 view model =
-    Html.div [] [ Html.App.map SpinnerMsg (Spinner.view model.spinner) ]
+    Html.div [] [ Spinner.view Spinner.defaultConfig model.spinner ]

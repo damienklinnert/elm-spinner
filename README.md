@@ -70,7 +70,7 @@ main =
         { init = init
         , update = update
         , view = view
-        , subscriptions = (\model -> Sub.map SpinnerMsg (Spinner.subscriptions model.spinner))
+        , subscriptions = (\model -> Sub.map SpinnerMsg Spinner.subscription)
         }
 ```
 
@@ -91,10 +91,10 @@ update msg model =
 
         SpinnerMsg msg ->
             let
-                ( spinnerModel, spinnerCmd ) =
+                spinnerModel =
                     Spinner.update msg model.spinner
             in
-                { model | spinner = spinnerModel } ! [ Cmd.map SpinnerMsg spinnerCmd ]
+                { model | spinner = spinnerModel } ! []
 ```
 
 
@@ -117,8 +117,6 @@ init =
     { spinner = Spinner.init } ! []
 ```
 
-**Note**: If you dislike the default spinner stype, you can make your own. Check the [spin module docs](http://package.elm-lang.org/packages/damienklinnert/elm-spinner/latest/) for more info.
-
 
 ### View
 
@@ -127,11 +125,14 @@ Now, last but not least, you can add the spinner to your application's view like
 ```elm
 view : Model -> Html.Html Msg
 view model =
-    Html.div [] [ Html.App.map SpinnerMsg (Spinner.view model.spinner) ]
+    Html.div [] [ Spinner.view Spinner.defaultConfig model.spinner ]
+
 
 ```
 
 Et Voilà, you should now have an animated spinner in your application.
+
+**Note**: If you dislike the default spinner stype, you can make your own. Check the [spin module docs](http://package.elm-lang.org/packages/damienklinnert/elm-spinner/latest/) for more info.
 
 
 ### What's next?
