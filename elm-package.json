@@ -1,5 +1,5 @@
 {
-    "version": "2.0.0",
+    "version": "2.0.1",
     "summary": "A highly configurable, efficiently rendered spinner component",
     "repository": "https://github.com/damienklinnert/elm-spinner.git",
     "license": "MIT",
