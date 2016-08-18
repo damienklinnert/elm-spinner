@@ -14,6 +14,8 @@ Check the [README for a general introduction into this module](http://package.el
 import Html exposing (Html, div)
 import Html.Attributes exposing (style)
 import Time exposing (Time)
+import Color exposing (Color, white)
+import Color.Convert exposing (colorToCssRgba)
 import AnimationFrame exposing (times)
 
 
@@ -88,6 +90,7 @@ type Direction
  - `translateY`: moves the spinner vertically (a value from 0 to 100, default is 50)
  - `shadow`: adds a box shadow (default is True)
  - `hwaccel`: enables hardware acceleration for lines (default is False)
+ - `color`: determines the color for each line based on an index parameter (default is `always Color.white`)
 
 -}
 type alias Config =
@@ -106,6 +109,7 @@ type alias Config =
     , translateY : Float
     , shadow : Bool
     , hwaccel : Bool
+    , color : Float -> Color
     }
 
 
@@ -128,6 +132,7 @@ defaultConfig =
     , translateY = 50
     , shadow = True
     , hwaccel = False
+    , color = always white
     }
 
 
@@ -184,7 +189,7 @@ barStyles cfg time n =
             max cfg.opacity trailedOpacity |> toString
     in
         style
-            [ ( "background", "#fff" )
+            [ ( "background", colorToCssRgba (cfg.color n) )
             , ( "height", (toString (cfg.width * cfg.scale)) ++ "px" )
             , ( "width", "" ++ (toString (cfg.length * cfg.scale + cfg.width)) ++ "px" )
             , ( "position", "absolute" )
