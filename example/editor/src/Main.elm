@@ -8,6 +8,7 @@ import Html.App exposing (program)
 import Debug exposing (log)
 import String
 import Spinner exposing (Direction(..), Config)
+import Json.Decode as Json
 
 
 type Msg
@@ -162,6 +163,10 @@ main =
         , view = view
         }
 
+
+onChange : (String -> msg) -> Html.Attribute msg
+onChange handler =
+    HE.on "change" <| Json.map handler <| Json.at ["target", "value"] Json.string
 
 view : Model -> Html Msg
 view model =
@@ -335,7 +340,7 @@ directionSelect config =
     in
         Html.p []
             [ Html.text "Direction"
-            , Html.select [ HE.onInput SetDirection ]
+            , Html.select [ onChange SetDirection ]
                 [ Html.option [ HA.value "Clockwise", HA.selected (direction == "Clockwise") ] [ Html.text "Clockwise" ]
                 , Html.option [ HA.value "Counterclockwise", HA.selected (direction == "Counterclockwise") ] [ Html.text "Counterclockwise" ]
                 ]
