@@ -7,6 +7,8 @@ import Html.Events as HE
 import Html.App exposing (program)
 import Debug exposing (log)
 import String
+import Color exposing (Color)
+import Dict exposing (Dict)
 import Spinner exposing (Direction(..), Config)
 import Json.Decode as Json
 
@@ -22,6 +24,7 @@ type Msg
     | SetOpacity String
     | SetRotate String
     | SetDirection String
+    | SetColor String
     | SetSpeed String
     | SetTrail String
     | SetTranslateX String
@@ -116,6 +119,14 @@ update msg model =
                 _ ->
                     model ! []
 
+        SetColor colorName ->
+            case Dict.get colorName colors of
+                Just color ->
+                    (updateSpinner model (\color cfg -> { cfg | color = color })) (always color) ! []
+
+                Nothing ->
+                    model ! []
+
         SetSpeed speed ->
             String.toFloat speed
                 |> Result.map (updateSpinner model (\speed cfg -> { cfg | speed = speed }))
@@ -198,7 +209,7 @@ view model =
                 , Html.code
                     [ HA.style [ ( "float", "left" ), ( "padding", "10px" ), ( "background", "#eee" ), ( "border-radius", "10px" ) ]
                     ]
-                    [ Html.text <| toString model.spinnerConfig ]
+                    [ Html.text <| configToString model.spinnerConfig ]
                 ]
             , Html.div [ HA.style [ ( "float", "left" ), ( "width", "300px" ), ( "margin-left", "30px" ) ] ]
                 [ lineSlider model.spinnerConfig
@@ -210,6 +221,7 @@ view model =
                 , opacitySlider model.spinnerConfig
                 , rotateSlider model.spinnerConfig
                 , directionSelect model.spinnerConfig
+                , colorSelect model.spinnerConfig
                 , speedSlider model.spinnerConfig
                 , trailSlider model.spinnerConfig
                 , translateXSlider model.spinnerConfig
@@ -346,6 +358,22 @@ directionSelect config =
                 ]
             ]
 
+colorSelect : Spinner.Config -> Html Msg
+colorSelect config =
+    let
+        color =
+            config.color 0
+    in
+        Html.p []
+            [ Html.text "Color"
+            , Html.select [ onChange SetColor ] (List.map (colorSelectOption color) (Dict.toList colors))
+            ]
+
+
+colorSelectOption : Color -> (String, Color) -> Html a
+colorSelectOption selected (name, color) =
+    Html.option [ HA.value name, HA.selected (selected == color) ] [ Html.text name ]
+
 
 speedSlider : Spinner.Config -> Html Msg
 speedSlider config =
@@ -427,3 +455,56 @@ hwaccelCheckbox config =
             , input [ HA.type' "checkbox", HA.checked hwaccel, HE.onCheck SetHwaccel ]
                 []
             ]
+
+
+colors : Dict String Color
+colors =
+    Dict.fromList
+        [ ("white", Color.white)
+        , ("red", Color.red)
+        , ("orange", Color.orange)
+        , ("yellow", Color.lightYellow)
+        , ("green", Color.lightGreen)
+        , ("blue", Color.lightBlue)
+        , ("purple", Color.lightPurple)
+        , ("brown", Color.lightBrown)
+        ]
+
+
+configToString : Spinner.Config -> String
+configToString config =
+    let
+        parts =
+            [ "lines = " ++ toString config.lines
+            , "length = " ++ toString config.length
+            , "width = " ++ toString config.width
+            , "radius = " ++ toString config.radius
+            , "scale = " ++ toString config.scale
+            , "corners = " ++ toString config.corners
+            , "opacity = " ++ toString config.opacity
+            , "rotate = " ++ toString config.rotate
+            , "direction = " ++ toString config.direction
+            , "speed = " ++ toString config.speed
+            , "trail = " ++ toString config.trail
+            , "translateX = " ++ toString config.translateX
+            , "translateY = " ++ toString config.translateY
+            , "shadow = " ++ toString config.shadow
+            , "hwaccel = " ++ toString config.hwaccel
+            , "color = " ++ colorToString (config.color 0)
+            ]
+    in
+        "{ " ++ String.join ", " parts ++ " }"
+
+
+colorToString : Color -> String
+colorToString color =
+    let
+        colorRgb = Color.toRgb color
+    in
+        String.join " "
+          [ "Color.rgba"
+          , toString colorRgb.red
+          , toString colorRgb.green
+          , toString colorRgb.blue
+          , toString colorRgb.alpha
+          ]
