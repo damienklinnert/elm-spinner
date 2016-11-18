@@ -62,8 +62,11 @@ update msg (Model time) =
 -}
 view : Config -> Model -> Html msg
 view cfg (Model time) =
-    div []
-        (List.map (\i -> div [ outerStyle cfg ] [ div [ barStyles cfg time i ] [] ]) [0..cfg.lines - 1])
+    let
+        range = List.range 0 ((floor cfg.lines) - 1) |> List.map toFloat
+    in
+        div []
+            (List.map (\i -> div [ outerStyle cfg ] [ div [ barStyles cfg time i ] [] ]) range)
 
 
 {-| A spinner can spin `Clockwise` or `Counterclockwise`.

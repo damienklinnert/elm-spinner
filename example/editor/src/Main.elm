@@ -4,7 +4,7 @@ import Time exposing (Time)
 import Html exposing (Html, div, input)
 import Html.Attributes as HA
 import Html.Events as HE
-import Html.App exposing (program)
+import Html exposing (program)
 import Debug exposing (log)
 import String
 import Color exposing (Color)
@@ -165,7 +165,7 @@ update msg model =
                 { model | spinner = spinnerModel } ! []
 
 
-main : Program Never
+main : Program Never Model Msg
 main =
     program
         { init = init
@@ -240,7 +240,7 @@ lineSlider config =
     in
         Html.p []
             [ Html.text "Lines"
-            , input [ HA.type' "range", HA.min "5", HA.max "17", HA.value lines, HE.onInput SetLines ]
+            , input [ HA.type_ "range", HA.min "5", HA.max "17", HA.value lines, HE.onInput SetLines ]
                 []
             , Html.text lines
             ]
@@ -254,7 +254,7 @@ lengthSlider config =
     in
         Html.p []
             [ Html.text "Length"
-            , input [ HA.type' "range", HA.min "0", HA.max "56", HA.value length, HE.onInput SetLength ]
+            , input [ HA.type_ "range", HA.min "0", HA.max "56", HA.value length, HE.onInput SetLength ]
                 []
             , Html.text length
             ]
@@ -268,7 +268,7 @@ widthSlider config =
     in
         Html.p []
             [ Html.text "Width"
-            , input [ HA.type' "range", HA.min "2", HA.max "52", HA.value width, HE.onInput SetWidth ]
+            , input [ HA.type_ "range", HA.min "2", HA.max "52", HA.value width, HE.onInput SetWidth ]
                 []
             , Html.text width
             ]
@@ -282,7 +282,7 @@ radiusSlider config =
     in
         Html.p []
             [ Html.text "Radius"
-            , input [ HA.type' "range", HA.min "0", HA.max "84", HA.value radius, HE.onInput SetRadius ]
+            , input [ HA.type_ "range", HA.min "0", HA.max "84", HA.value radius, HE.onInput SetRadius ]
                 []
             , Html.text radius
             ]
@@ -296,7 +296,7 @@ scaleSlider config =
     in
         Html.p []
             [ Html.text "Scale"
-            , input [ HA.type' "range", HA.min "0", HA.max "5", HA.value scale, HA.step "0.25", HE.onInput SetScale ]
+            , input [ HA.type_ "range", HA.min "0", HA.max "5", HA.value scale, HA.step "0.25", HE.onInput SetScale ]
                 []
             , Html.text scale
             ]
@@ -310,7 +310,7 @@ cornersSlider config =
     in
         Html.p []
             [ Html.text "Corners"
-            , input [ HA.type' "range", HA.min "0", HA.max "1", HA.value corners, HA.step "0.1", HE.onInput SetCorners ]
+            , input [ HA.type_ "range", HA.min "0", HA.max "1", HA.value corners, HA.step "0.1", HE.onInput SetCorners ]
                 []
             , Html.text corners
             ]
@@ -324,7 +324,7 @@ opacitySlider config =
     in
         Html.p []
             [ Html.text "Opacity"
-            , input [ HA.type' "range", HA.min "0", HA.max "1", HA.value opacity, HA.step "0.05", HE.onInput SetOpacity ]
+            , input [ HA.type_ "range", HA.min "0", HA.max "1", HA.value opacity, HA.step "0.05", HE.onInput SetOpacity ]
                 []
             , Html.text opacity
             ]
@@ -338,7 +338,7 @@ rotateSlider config =
     in
         Html.p []
             [ Html.text "Rotate"
-            , input [ HA.type' "range", HA.min "0", HA.max "90", HA.value rotate, HA.step "1", HE.onInput SetRotate ]
+            , input [ HA.type_ "range", HA.min "0", HA.max "90", HA.value rotate, HA.step "1", HE.onInput SetRotate ]
                 []
             , Html.text rotate
             ]
@@ -383,7 +383,7 @@ speedSlider config =
     in
         Html.p []
             [ Html.text "Speed"
-            , input [ HA.type' "range", HA.min "0.5", HA.max "2.2", HA.value speed, HA.step "0.1", HE.onInput SetSpeed ]
+            , input [ HA.type_ "range", HA.min "0.5", HA.max "2.2", HA.value speed, HA.step "0.1", HE.onInput SetSpeed ]
                 []
             , Html.text speed
             ]
@@ -397,7 +397,7 @@ trailSlider config =
     in
         Html.p []
             [ Html.text "Trail"
-            , input [ HA.type' "range", HA.min "10", HA.max "100", HA.value trail, HA.step "1", HE.onInput SetTrail ]
+            , input [ HA.type_ "range", HA.min "10", HA.max "100", HA.value trail, HA.step "1", HE.onInput SetTrail ]
                 []
             , Html.text trail
             ]
@@ -411,7 +411,7 @@ translateXSlider config =
     in
         Html.p []
             [ Html.text "Translate X"
-            , input [ HA.type' "range", HA.min "0", HA.max "100", HA.value translateX, HA.step "1", HE.onInput SetTranslateX ]
+            , input [ HA.type_ "range", HA.min "0", HA.max "100", HA.value translateX, HA.step "1", HE.onInput SetTranslateX ]
                 []
             , Html.text translateX
             ]
@@ -425,7 +425,7 @@ translateYSlider config =
     in
         Html.p []
             [ Html.text "Translate Y"
-            , input [ HA.type' "range", HA.min "0", HA.max "100", HA.value translateY, HA.step "1", HE.onInput SetTranslateY ]
+            , input [ HA.type_ "range", HA.min "0", HA.max "100", HA.value translateY, HA.step "1", HE.onInput SetTranslateY ]
                 []
             , Html.text translateY
             ]
@@ -439,7 +439,7 @@ shadowCheckbox config =
     in
         Html.p []
             [ Html.text "Shadow"
-            , input [ HA.type' "checkbox", HA.checked shadow, HE.onCheck SetShadow ]
+            , input [ HA.type_ "checkbox", HA.checked shadow, HE.onCheck SetShadow ]
                 []
             ]
 
@@ -452,7 +452,7 @@ hwaccelCheckbox config =
     in
         Html.p []
             [ Html.text "Hwaccel"
-            , input [ HA.type' "checkbox", HA.checked hwaccel, HE.onCheck SetHwaccel ]
+            , input [ HA.type_ "checkbox", HA.checked hwaccel, HE.onCheck SetHwaccel ]
                 []
             ]
 
