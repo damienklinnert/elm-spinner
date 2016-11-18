@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Html
 import Html.Attributes exposing (style)
-import Html.App exposing (program)
+import Html exposing (program)
 import Spinner
 
 
@@ -16,7 +16,7 @@ type alias Model =
     }
 
 
-main : Program Never
+main : Program Never Model Msg
 main =
     program
         { init = init

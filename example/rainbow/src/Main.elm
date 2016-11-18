@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Html
 import Html.Attributes exposing (style)
-import Html.App exposing (program)
+import Html exposing (program)
 import Color exposing (Color, rgb)
 import Color.Gradient exposing (gradient)
 import Color.Interpolate exposing (Space(RGB))
@@ -19,7 +19,7 @@ type alias Model =
     }
 
 
-main : Program Never
+main : Program Never Model Msg
 main =
     program
         { init = init
