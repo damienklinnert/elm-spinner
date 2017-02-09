@@ -64,7 +64,7 @@ Now you're ready to wire up everything!
 Since our spinner is animated, we'll need to add a `subscription` to our `program`:
 
 ```elm
-main : Program Never
+main : Program Never Model Msg
 main =
     program
         { init = init
