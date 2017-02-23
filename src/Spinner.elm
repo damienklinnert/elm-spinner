@@ -149,13 +149,16 @@ outerStyle cfg =
         ([ ( "position", "absolute" )
          , ( "top", "calc(" ++ (toString cfg.translateY) ++ "%)" )
          , ( "left", (toString cfg.translateX) ++ "%" )
-         , ( "transform", "scale(" ++ toString cfg.scale ++ ")" )
+         , ( "transform"
+           , "scale("
+                ++ toString cfg.scale
+                ++ ")"
+                ++ if cfg.hwaccel then
+                    " translate3d(0px, 0px, 0px)"
+                   else
+                    ""
+           )
          ]
-            ++ (if cfg.hwaccel then
-                    [ ( "transform", "translate3d(0px, 0px, 0px)" ) ]
-                else
-                    []
-               )
         )
 
 
