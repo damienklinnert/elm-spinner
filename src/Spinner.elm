@@ -186,7 +186,7 @@ barStyles cfg time n =
             (max 0 ((cfg.lines * lineOpacity) - (cfg.lines - scaledTrail))) / scaledTrail
 
         borderRadius =
-            cfg.corners * cfg.width
+            cfg.corners * cfg.width / 2
 
         baseLinedOpacity =
             max cfg.opacity trailedOpacity |> toString
