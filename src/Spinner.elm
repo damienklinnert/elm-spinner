@@ -149,12 +149,16 @@ outerStyle cfg =
         ([ ( "position", "absolute" )
          , ( "top", "calc(" ++ (toString cfg.translateY) ++ "%)" )
          , ( "left", (toString cfg.translateX) ++ "%" )
+         , ( "transform"
+           , "scale("
+                ++ toString cfg.scale
+                ++ ")"
+                ++ if cfg.hwaccel then
+                    " translate3d(0px, 0px, 0px)"
+                   else
+                    ""
+           )
          ]
-            ++ (if cfg.hwaccel then
-                    [ ( "transform", "translate3d(0px, 0px, 0px)" ) ]
-                else
-                    []
-               )
         )
 
 
@@ -193,12 +197,12 @@ barStyles cfg time n =
     in
         style
             [ ( "background", colorToCssRgba (cfg.color n) )
-            , ( "height", (toString (cfg.width * cfg.scale)) ++ "px" )
-            , ( "width", "" ++ (toString (cfg.length * cfg.scale + cfg.width)) ++ "px" )
+            , ( "height", (toString cfg.width) ++ "px" )
+            , ( "width", "" ++ (toString (cfg.length + cfg.width)) ++ "px" )
             , ( "position", "absolute" )
             , ( "transform-origin", "left" )
-            , ( "transform", "rotate(" ++ deg ++ "deg) translate(" ++ (toString (cfg.radius * cfg.scale)) ++ "px, 0px)" )
-            , ( "border-radius", (toString (borderRadius * cfg.scale)) ++ "px" )
+            , ( "transform", "rotate(" ++ deg ++ "deg) translate(" ++ (toString cfg.radius) ++ "px, 0px)" )
+            , ( "border-radius", (toString borderRadius) ++ "px" )
             , ( "opacity", baseLinedOpacity )
             , ( "box-shadow"
               , (if cfg.shadow then
