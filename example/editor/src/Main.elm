@@ -483,14 +483,14 @@ configToString config =
             , "corners = " ++ toString config.corners
             , "opacity = " ++ toString config.opacity
             , "rotate = " ++ toString config.rotate
-            , "direction = " ++ toString config.direction
+            , "direction = Spinner." ++ toString config.direction
             , "speed = " ++ toString config.speed
             , "trail = " ++ toString config.trail
             , "translateX = " ++ toString config.translateX
             , "translateY = " ++ toString config.translateY
             , "shadow = " ++ toString config.shadow
             , "hwaccel = " ++ toString config.hwaccel
-            , "color = " ++ colorToString (config.color 0)
+            , "color = always <| " ++ colorToString (config.color 0)
             ]
     in
         "{ " ++ String.join ", " parts ++ " }"
