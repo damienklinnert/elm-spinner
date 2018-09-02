@@ -19,8 +19,6 @@ Check the [README for a general introduction into this module](http://package.el
 
 -}
 
-import Color exposing (Color, white)
-import Color.Convert exposing (colorToCssRgba)
 import Browser.Events
 import Html exposing (Html, div)
 import Html.Attributes exposing (style)
@@ -124,7 +122,7 @@ type alias Config =
     , translateY : Float
     , shadow : Bool
     , hwaccel : Bool
-    , color : Float -> Color
+    , color : Float -> String
     }
 
 
@@ -147,7 +145,7 @@ defaultConfig =
     , translateY = 50
     , shadow = True
     , hwaccel = False
-    , color = always white
+    , color = always "rgba(255, 255, 255, 0.9)"
     }
 
 
@@ -209,7 +207,7 @@ barStyles cfg time n =
         baseLinedOpacity =
             max cfg.opacity trailedOpacity |> String.fromFloat
     in
-        [ ( "background", colorToCssRgba (cfg.color n) )
+    [ style "background" <| cfg.color n
     , style "height" <| String.fromFloat cfg.width ++ "px"
     , style "width" <| String.fromFloat (cfg.length + cfg.width) ++ "px"
     , style "position" "absolute"
