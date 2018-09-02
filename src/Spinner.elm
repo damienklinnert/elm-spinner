@@ -19,39 +19,39 @@ Check the [README for a general introduction into this module](http://package.el
 
 -}
 
-import AnimationFrame exposing (times)
 import Color exposing (Color, white)
 import Color.Convert exposing (colorToCssRgba)
+import Browser.Events
 import Html exposing (Html, div)
 import Html.Attributes exposing (style)
-import Time exposing (Time)
+import Time
 
 
 {-| Contains the current state for the spinner.
 -}
 type Model
-    = Model Time
+    = Model Time.Posix
 
 
 {-| `Msg` messages need to be passed through your application.
 -}
 type Msg
     = Noop
-    | AnimationFrame Time
+    | AnimationFrame Time.Posix
 
 
 {-| Add this to your `program`s subscriptions to animate the spinner.
 -}
 subscription : Sub Msg
 subscription =
-    times AnimationFrame
+    Browser.Events.onAnimationFrame AnimationFrame
 
 
 {-| Defines an initial value for the `Model` type.
 -}
 init : Model
 init =
-    Model 0
+    Model <| Time.millisToPosix 0
 
 
 {-| Accepts `Msg` and `Model` and computes a new `Model`.
@@ -73,9 +73,12 @@ view cfg (Model time) =
     let
         range =
             List.range 0 (floor cfg.lines - 1) |> List.map toFloat
+
+        floatTime =
+            Time.posixToMillis time |> toFloat
     in
     div []
-        (List.map (\i -> div [ outerStyle cfg ] [ div [ barStyles cfg time i ] [] ]) range)
+        (List.map (\i -> div (outerStyle cfg) [ div (barStyles cfg floatTime i) [] ]) range)
 
 
 {-| A spinner can spin `Clockwise` or `Counterclockwise`.
@@ -152,27 +155,27 @@ defaultConfig =
 -- Helpers, those make our spinner look like one
 
 
-outerStyle : Config -> Html.Attribute msg
+outerStyle : Config -> List (Html.Attribute msg)
 outerStyle cfg =
-    style
-        [ ( "position", "absolute" )
-        , ( "top", "calc(" ++ toString cfg.translateY ++ "%)" )
-        , ( "left", toString cfg.translateX ++ "%" )
-        , ( "transform"
-          , "scale("
-                ++ toString cfg.scale
-                ++ ")"
-                ++ (if cfg.hwaccel then
-                        " translate3d(0px, 0px, 0px)"
+    [ style "position" "absolute"
+    , style "top" <| "calc(" ++ String.fromFloat cfg.translateY ++ "%)"
+    , style "left" <| String.fromFloat cfg.translateX ++ "%"
+    , style
+        "transform"
+        ("scale("
+            ++ String.fromFloat cfg.scale
+            ++ ")"
+            ++ (if cfg.hwaccel then
+                    " translate3d(0px, 0px, 0px)"
 
-                    else
-                        ""
-                   )
-          )
-        ]
+                else
+                    ""
+               )
+        )
+    ]
 
 
-barStyles : Config -> Float -> Float -> Html.Attribute a
+barStyles : Config -> Float -> Float -> List (Html.Attribute a)
 barStyles cfg time n =
     let
         directionBasedDeg =
@@ -183,7 +186,7 @@ barStyles cfg time n =
                 n
 
         deg =
-            360 / cfg.lines * directionBasedDeg + cfg.rotate |> toString
+            360 / cfg.lines * directionBasedDeg + cfg.rotate |> String.fromFloat
 
         fullBlinkTime =
             1000 / cfg.speed
@@ -195,7 +198,7 @@ barStyles cfg time n =
             (n / cfg.lines) * fullBlinkTime |> truncate
 
         lineOpacity =
-            toFloat (1000 - (modBy (truncate fullBlinkTime) (truncate time + movePerLight))) / 1000
+            toFloat (modBy (truncate fullBlinkTime) (1000 - (truncate time + movePerLight))) / 1000
 
         trailedOpacity =
             max 0 ((cfg.lines * lineOpacity) - (cfg.lines - scaledTrail)) / scaledTrail
@@ -204,31 +207,30 @@ barStyles cfg time n =
             cfg.corners * cfg.width / 2
 
         baseLinedOpacity =
-            max cfg.opacity trailedOpacity |> toString
+            max cfg.opacity trailedOpacity |> String.fromFloat
     in
-    style
         [ ( "background", colorToCssRgba (cfg.color n) )
-        , ( "height", toString cfg.width ++ "px" )
-        , ( "width", "" ++ toString (cfg.length + cfg.width) ++ "px" )
-        , ( "position", "absolute" )
-        , ( "transform-origin", "left" )
-        , ( "transform", "rotate(" ++ deg ++ "deg) translate(" ++ toString cfg.radius ++ "px, 0px)" )
-        , ( "border-radius", toString borderRadius ++ "px" )
-        , ( "opacity", baseLinedOpacity )
-        , ( "box-shadow"
-          , if cfg.shadow then
-                "0 0 4px #000"
+    , style "height" <| String.fromFloat cfg.width ++ "px"
+    , style "width" <| String.fromFloat (cfg.length + cfg.width) ++ "px"
+    , style "position" "absolute"
+    , style "transform-origin" "left"
+    , style "transform" <| "rotate(" ++ deg ++ "deg) translate(" ++ String.fromFloat cfg.radius ++ "px, 0px)"
+    , style "border-radius" <| String.fromFloat borderRadius ++ "px"
+    , style "opacity" baseLinedOpacity
+    , style "box-shadow"
+        (if cfg.shadow then
+            "0 0 4px #000"
 
-            else
-                "none"
-          )
+         else
+            "none"
+        )
 
-        -- TODO add browser prefixes!
-        , ( "-webkit-box-shadow"
-          , if cfg.shadow then
-                "0 0 4px #000"
+    -- TODO add browser prefixes!
+    , style "-webkit-box-shadow"
+        (if cfg.shadow then
+            "0 0 4px #000"
 
-            else
-                "none"
-          )
-        ]
+         else
+            "none"
+        )
+    ]
