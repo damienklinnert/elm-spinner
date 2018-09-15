@@ -1,8 +1,7 @@
-module Main exposing (..)
+module Main exposing (Model, Msg(..), init, main, update, view)
 
-import Html
-import Html.Attributes exposing (style)
 import Html exposing (program)
+import Html.Attributes exposing (style)
 import Spinner
 
 
@@ -22,27 +21,33 @@ main =
         { init = init
         , update = update
         , view = view
-        , subscriptions = (\model -> Sub.map SpinnerMsg Spinner.subscription)
+        , subscriptions = \model -> Sub.map SpinnerMsg Spinner.subscription
         }
 
 
 init : ( Model, Cmd Msg )
 init =
-    { spinner = Spinner.init } ! []
+    ( { spinner = Spinner.init }
+    , Cmd.none
+    )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Noop ->
-            model ! []
+            ( model
+            , Cmd.none
+            )
 
         SpinnerMsg msg ->
             let
                 spinnerModel =
                     Spinner.update msg model.spinner
             in
-                { model | spinner = spinnerModel } ! []
+            ( { model | spinner = spinnerModel }
+            , Cmd.none
+            )
 
 
 view : Model -> Html.Html Msg
