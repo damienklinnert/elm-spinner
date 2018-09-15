@@ -1,6 +1,7 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
-import Html exposing (program)
+import Browser
+import Html exposing (Html)
 import Html.Attributes exposing (style)
 import Spinner
 
@@ -15,9 +16,9 @@ type alias Model =
     }
 
 
-main : Program Never Model Msg
+main : Program Flags Model Msg
 main =
-    program
+    Browser.document
         { init = init
         , update = update
         , view = view
@@ -25,11 +26,16 @@ main =
         }
 
 
-init : ( Model, Cmd Msg )
+type alias Flags =
+    {}
+
+
+init : Flags -> ( Model, Cmd Msg )
 init =
-    ( { spinner = Spinner.init }
-    , Cmd.none
-    )
+    \_ ->
+        ( { spinner = Spinner.init }
+        , Cmd.none
+        )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -40,16 +46,18 @@ update msg model =
             , Cmd.none
             )
 
-        SpinnerMsg msg ->
+        SpinnerMsg spinnerMsg ->
             let
                 spinnerModel =
-                    Spinner.update msg model.spinner
+                    Spinner.update spinnerMsg model.spinner
             in
             ( { model | spinner = spinnerModel }
             , Cmd.none
             )
 
 
-view : Model -> Html.Html Msg
+view : Model -> Browser.Document Msg
 view model =
-    Html.div [] [ Spinner.view Spinner.defaultConfig model.spinner ]
+    { title = "Simple Spinner"
+    , body = [ Html.div [] [ Spinner.view Spinner.defaultConfig model.spinner ] ]
+    }
