@@ -3,7 +3,7 @@
     "name": "damienklinnert/elm-spinner",
     "summary": "A highly configurable, efficiently rendered spinner component",
     "license": "MIT",
-    "version": "3.0.1",
+    "version": "4.0.0",
     "exposed-modules": [
         "Spinner"
     ],
