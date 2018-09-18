@@ -23,6 +23,7 @@ to with the Elm Architecture in your application.
 - [bug tracker](https://github.com/damienklinnert/elm-spinner/issues)
 - [source code](https://github.com/damienklinnert/elm-spinner)
 - [documentation](http://package.elm-lang.org/packages/damienklinnert/elm-spinner/latest/)
+- [changelog](https://github.com/damienklinnert/elm-spinner/blob/master/CHANGELOG.md)
 
 
 ## Quickstart

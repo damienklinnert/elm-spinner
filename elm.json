@@ -1,0 +1,19 @@
+{
+    "type": "package",
+    "name": "damienklinnert/elm-spinner",
+    "summary": "A highly configurable, efficiently rendered spinner component",
+    "license": "MIT",
+    "version": "3.0.1",
+    "exposed-modules": [
+        "Spinner"
+    ],
+    "elm-version": "0.19.0 <= v < 0.20.0",
+    "dependencies": {
+        "avh4/elm-color": "1.0.0 <= v < 2.0.0",
+        "elm/browser": "1.0.0 <= v < 2.0.0",
+        "elm/core": "1.0.0 <= v < 2.0.0",
+        "elm/html": "1.0.0 <= v < 2.0.0",
+        "elm/time": "1.0.0 <= v < 2.0.0"
+    },
+    "test-dependencies": {}
+}
