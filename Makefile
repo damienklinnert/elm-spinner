@@ -1,7 +1,7 @@
 all: format_all compile_lib compile_simple_example compile_editor_example
 
 format_all:
-	elm-format-0.17 --yes .
+	elm-format --yes .
 
 compile_lib: src/*.elm
 	elm make src/* --yes
