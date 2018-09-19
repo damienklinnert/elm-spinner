@@ -4,10 +4,10 @@ format_all:
 	elm-format --yes .
 
 compile_lib: src/*.elm
-	elm make src/* --yes
+	elm make src/*
 
 compile_simple_example:
-	cd example/simple && elm make src/Main.elm --yes
+	cd example/simple && elm make src/Main.elm
 
 compile_editor_example:
-	cd example/editor && elm make src/Main.elm --yes
+	cd example/editor && elm make src/Main.elm
