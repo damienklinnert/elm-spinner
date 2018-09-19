@@ -1,0 +1,19 @@
+{
+    "version": "3.0.2",
+    "summary": "A highly configurable, efficiently rendered spinner component",
+    "repository": "https://github.com/damienklinnert/elm-spinner.git",
+    "license": "MIT",
+    "source-directories": [
+        "0.18-src"
+    ],
+    "exposed-modules": [
+        "Spinner"
+    ],
+    "dependencies": {
+        "elm-lang/animation-frame": "1.0.0 <= v < 2.0.0",
+        "elm-lang/core": "5.0.0 <= v < 6.0.0",
+        "elm-lang/html": "2.0.0 <= v < 3.0.0",
+        "eskimoblood/elm-color-extra": "3.0.4 <= v < 4.0.0"
+    },
+    "elm-version": "0.18.0 <= v < 0.19.0"
+}
